@@ -92,6 +92,15 @@ function HoldsPositionLogger:AddPos(positionname, position)
     PosVal.Name = "PosVal"
     PosVal.Value = tostring(position)
 
+    CopyPosition.MouseButton1Click:Connect(function()
+        setclipboard(PosVal.Value)
+    end)
+
+    RemoveFromList.MouseButton1Click:Connect(function()
+        PositionFrame:Destroy()
+        game:GetService("CoreGui")["Hold's Position Logger"].ListFrame.PositionList.CanvasSize = UDim2.new(0, 0, 0, game:GetService("CoreGui")["Hold's Position Logger"].ListFrame.PositionList.PositionListLayout.AbsoluteContentSize.Y)
+    end)
+
     game:GetService("CoreGui")["Hold's Position Logger"].ListFrame.PositionList.CanvasSize = UDim2.new(0, 0, 0, game:GetService("CoreGui")["Hold's Position Logger"].ListFrame.PositionList.PositionListLayout.AbsoluteContentSize.Y)
 
 end
