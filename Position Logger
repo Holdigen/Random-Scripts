@@ -1,0 +1,338 @@
+--// Services
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+
+--// Variables
+local player = Players.LocalPlayer
+function getRoot()
+    local char = player.Character or player.CharacterAdded:Wait()
+    return char
+end
+function createTween(element, duration, args, waittofinish, easingstyle)
+    local easingstyle = easingstyle or Enum.EasingStyle.Linear
+    local waittofinish = waittofinish or false
+    local tween = TweenService:Create(element, TweenInfo.new(duration, easingstyle, Enum.EasingDirection.Out), {element = args})
+    tween:Play()
+    if waittofinish then
+        tween.Completed:Wait()
+    end
+end
+
+--// Ui Holder
+
+local HoldsPositionLogger = {}
+
+function HoldsPositionLogger:AddPos(positionname, position)
+
+    local positionname = positionname or "Location"
+    local position = position
+    if position == nil then
+        Vector3.new(0, 25, 0)
+    end 
+
+    print(tostring(position))
+
+    local PositionFrame = Instance.new("Frame")
+    local PositionFrameCorner = Instance.new("UICorner")
+    local PositonName = Instance.new("TextLabel")
+    local PositionNameScale = Instance.new("UITextSizeConstraint")
+    local CopyPosition = Instance.new("ImageButton")
+    local RemoveFromList = Instance.new("ImageButton")
+    local PosVal = Instance.new("StringValue")
+
+    PositionFrame.Name = "PositionFrame"
+    PositionFrame.Parent = game:GetService("CoreGui")["Hold's Position Logger"].ListFrame.PositionList
+    PositionFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    PositionFrame.Size = UDim2.new(0, 140, 0, 35)
+
+    PositionFrameCorner.CornerRadius = UDim.new(0, 6)
+    PositionFrameCorner.Name = "PositionFrameCorner"
+    PositionFrameCorner.Parent = PositionFrame
+
+    PositonName.Name = "PositonName"
+    PositonName.Parent = PositionFrame
+    PositonName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    PositonName.BackgroundTransparency = 1.000
+    PositonName.Position = UDim2.new(0.0642857179, 0, 0.142857149, 0)
+    PositonName.Size = UDim2.new(0, 80, 0, 25)
+    PositonName.Font = Enum.Font.SourceSansSemibold
+    PositonName.Text = positionname
+    PositonName.TextColor3 = Color3.fromRGB(200, 200, 200)
+    PositonName.TextScaled = true
+    PositonName.TextSize = 14.000
+    PositonName.TextWrapped = true
+    PositonName.TextXAlignment = Enum.TextXAlignment.Left
+
+    PositionNameScale.Name = "PositionNameScale"
+    PositionNameScale.Parent = PositonName
+    PositionNameScale.MaxTextSize = 14
+
+    CopyPosition.Name = "CopyPosition"
+    CopyPosition.Parent = PositionFrame
+    CopyPosition.BackgroundTransparency = 1.000
+    CopyPosition.LayoutOrder = 8
+    CopyPosition.Position = UDim2.new(0.665713966, 0, 0.200000048, 0)
+    CopyPosition.Size = UDim2.new(0, 20, 0, 20)
+    CopyPosition.ZIndex = 2
+    CopyPosition.Image = "rbxassetid://3926305904"
+    CopyPosition.ImageRectOffset = Vector2.new(924, 764)
+    CopyPosition.ImageRectSize = Vector2.new(36, 36)
+
+    RemoveFromList.Name = "RemoveFromList"
+    RemoveFromList.Parent = PositionFrame
+    RemoveFromList.BackgroundTransparency = 1.000
+    RemoveFromList.Position = UDim2.new(0.811607122, 0, 0.206537485, 0)
+    RemoveFromList.Size = UDim2.new(0, 20, 0, 20)
+    RemoveFromList.ZIndex = 2
+    RemoveFromList.Image = "rbxassetid://3926305904"
+    RemoveFromList.ImageRectOffset = Vector2.new(924, 724)
+    RemoveFromList.ImageRectSize = Vector2.new(36, 36)
+
+    PosVal.Parent = PositionFrame
+    PosVal.Name = "PosVal"
+    PosVal.Value = tostring(position)
+
+    game:GetService("CoreGui")["Hold's Position Logger"].ListFrame.PositionList.CanvasSize = UDim2.new(0, 0, 0, game:GetService("CoreGui")["Hold's Position Logger"].ListFrame.PositionList.PositionListLayout.AbsoluteContentSize.Y)
+
+end
+
+function HoldsPositionLogger:CreateUi(callback)
+
+    if game:GetService("CoreGui"):FindFirstChild("Hold's Position Logger") then game:GetService("CoreGui"):FindFirstChild("Hold's Position Logger"):Destroy() end
+
+    local GuiFrame = Instance.new("ScreenGui")
+    local MainFrame = Instance.new("Frame")
+    local Title = Instance.new("TextLabel")
+    local CurrentPositionLabel = Instance.new("TextLabel")
+    local CopyPositionButton = Instance.new("TextButton")
+    local CPBCorner = Instance.new("UICorner")
+    local StorePositionButton = Instance.new("TextButton")
+    local SPBCorner = Instance.new("UICorner")
+    local Close = Instance.new("ImageButton")
+    local TextBox = Instance.new("TextBox")
+    local SaveTable = Instance.new("ImageButton")
+    local ListFrame = Instance.new("Frame")
+    local ListLabel = Instance.new("TextLabel")
+    local PositionList = Instance.new("ScrollingFrame")
+    local PositionListLayout = Instance.new("UIListLayout")
+
+    GuiFrame.Parent = game:GetService("CoreGui")
+    GuiFrame.Name = "Hold's Position Logger"
+    
+    MainFrame.Name = "MainFrame"
+    MainFrame.Parent = GuiFrame
+    MainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    MainFrame.Position = UDim2.new(0.606994212, 0, 0.694478512, 0)
+    MainFrame.Size = UDim2.new(0, 292, 0, 236)
+    
+    Title.Name = "Title"
+    Title.Parent = MainFrame
+    Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Title.BackgroundTransparency = 1.000
+    Title.Position = UDim2.new(0.157534242, 0, 0.0254237279, 0)
+    Title.Size = UDim2.new(0, 200, 0, 29)
+    Title.Font = Enum.Font.GothamSemibold
+    Title.Text = "Hold's Position Grabber"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 14.000
+    
+    CurrentPositionLabel.Name = "CurrentPositionLabel"
+    CurrentPositionLabel.Parent = MainFrame
+    CurrentPositionLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    CurrentPositionLabel.BorderSizePixel = 0
+    CurrentPositionLabel.Position = UDim2.new(0.157534242, 0, 0.177966103, 0)
+    CurrentPositionLabel.Size = UDim2.new(0, 200, 0, 50)
+    CurrentPositionLabel.Font = Enum.Font.GothamBlack
+    CurrentPositionLabel.Text = "0, 0, 0"
+    CurrentPositionLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CurrentPositionLabel.TextSize = 14.000
+    
+    CopyPositionButton.Name = "CopyPositionButton"
+    CopyPositionButton.Parent = MainFrame
+    CopyPositionButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    CopyPositionButton.Position = UDim2.new(0.157534242, 0, 0.783898354, 0)
+    CopyPositionButton.Size = UDim2.new(0, 200, 0, 38)
+    CopyPositionButton.AutoButtonColor = false
+    CopyPositionButton.Font = Enum.Font.SourceSansBold
+    CopyPositionButton.Text = "Copy Position"
+    CopyPositionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CopyPositionButton.TextSize = 14.000
+    
+    CPBCorner.CornerRadius = UDim.new(0, 6)
+    CPBCorner.Name = "CPBCorner"
+    CPBCorner.Parent = CopyPositionButton
+    
+    StorePositionButton.Name = "StorePositionButton"
+    StorePositionButton.Parent = MainFrame
+    StorePositionButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    StorePositionButton.Position = UDim2.new(0.157534242, 0, 0.597457647, 0)
+    StorePositionButton.Size = UDim2.new(0, 200, 0, 38)
+    StorePositionButton.AutoButtonColor = false
+    StorePositionButton.Font = Enum.Font.SourceSansBold
+    StorePositionButton.Text = "Add To List"
+    StorePositionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    StorePositionButton.TextSize = 14.000
+    
+    SPBCorner.CornerRadius = UDim.new(0, 6)
+    SPBCorner.Name = "SPBCorner"
+    SPBCorner.Parent = StorePositionButton
+    
+    Close.Name = "Close"
+    Close.Parent = MainFrame
+    Close.BackgroundTransparency = 1.000
+    Close.Position = UDim2.new(0.89041096, 0, 0.0254237354, 0)
+    Close.Size = UDim2.new(0, 25, 0, 25)
+    Close.ZIndex = 2
+    Close.Image = "rbxassetid://3926305904"
+    Close.ImageRectOffset = Vector2.new(924, 724)
+    Close.ImageRectSize = Vector2.new(36, 36)
+    
+    TextBox.Parent = MainFrame
+    TextBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    TextBox.BorderSizePixel = 0
+    TextBox.Position = UDim2.new(0.157534242, 0, 0.419491529, 0)
+    TextBox.Size = UDim2.new(0, 200, 0, 38)
+    TextBox.Font = Enum.Font.SourceSansSemibold
+    TextBox.PlaceholderText = "Enter Position Name"
+    TextBox.Text = ""
+    TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TextBox.TextSize = 15.000
+
+    SaveTable.Name = "SaveTable"
+    SaveTable.Parent = MainFrame
+    SaveTable.BackgroundTransparency = 1.000
+    SaveTable.Position = UDim2.new(0.0344718471, 0, 0.0232608914, 0)
+    SaveTable.Size = UDim2.new(0, 25, 0, 25)
+    SaveTable.ZIndex = 2
+    SaveTable.Image = "rbxassetid://3926307971"
+    SaveTable.ImageRectOffset = Vector2.new(684, 404)
+    SaveTable.ImageRectSize = Vector2.new(36, 36)
+
+    ListFrame.Name = "ListFrame"
+    ListFrame.Parent = GuiFrame
+    ListFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    ListFrame.Position = UDim2.new(0.856786013, 0, 0.694478512, 0)
+    ListFrame.Size = UDim2.new(0, 160, 0, 236)
+
+    ListLabel.Name = "ListLabel"
+    ListLabel.Parent = ListFrame
+    ListLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ListLabel.BackgroundTransparency = 1.000
+    ListLabel.Position = UDim2.new(0.151284039, 0, 0.0254237279, 0)
+    ListLabel.Size = UDim2.new(0, 111, 0, 29)
+    ListLabel.Font = Enum.Font.GothamSemibold
+    ListLabel.Text = "Position List"
+    ListLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ListLabel.TextSize = 14.000
+
+    PositionList.Name = "PositionList"
+    PositionList.Parent = ListFrame
+    PositionList.Active = true
+    PositionList.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    PositionList.BackgroundTransparency = 3.000
+    PositionList.BorderSizePixel = 0
+    PositionList.Position = UDim2.new(0.0562499985, 0, 0.148305088, 0)
+    PositionList.Size = UDim2.new(0, 141, 0, 195)
+    PositionList.ScrollBarThickness = 4
+
+    PositionListLayout.Name = "PositionListLayout"
+    PositionListLayout.Parent = PositionList
+    PositionListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+    spawn(function()
+        while wait(0.001) do
+            local PlayerPosition = getRoot()
+            PlayerPosition = PlayerPosition.HumanoidRootPart.Position
+            CurrentPositionLabel.Text = tostring(math.floor(PlayerPosition.X))..", "..tostring(math.floor(PlayerPosition.Y))..", "..tostring(math.floor(PlayerPosition.Z))
+        end
+    end)
+
+    Close.MouseButton1Click:Connect(function()
+        GuiFrame:Destroy()
+    end)
+
+    CopyPositionButton.MouseButton1Click:Connect(function()
+        setclipboard(CurrentPositionLabel.Text)
+    end)
+
+    StorePositionButton.MouseButton1Click:Connect(function()
+        local locationname = TextBox.Text
+        local position = CurrentPositionLabel.Text
+
+        if locationname == "" then
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                title = "Position Logger",
+                text = "Please name your postiton first.",
+            })
+            return
+        end
+
+        callback(locationname, position)
+    end)
+
+    SaveTable.MouseButton1Click:Connect(function()
+        --print("Hi")
+        local summary = ""
+
+        summary = "local PositionNames = {"
+        for i, v in next, PositionList:GetChildren() do
+            if v.Name == "PositionListLayout" then else
+                summary = summary..'\n\t"'..v.PositonName.Text..'",'
+            end
+        end
+        summary = summary.."\n}"
+
+        summary = summary.."\n\n".."local Positions = {"
+        for i, v in next, PositionList:GetChildren() do
+            if v.Name == "PositionListLayout" then else
+                summary = summary..'\n\t["'..v.PositonName.Text..'"] = '.."Vector3.new("..v.PosVal.Value..")"..","
+            end
+        end
+        summary = summary.."\n}"
+
+        summary = summary.."\n\n--// Thanks for using Hold's Position Grabber!"
+
+        function Callback(answer)
+            if answer == "Copy" then
+                setclipboard(summary)
+            elseif answer == "File" then
+                if isfolder("Hold") then
+                    local hmn = listfiles("Hold")
+                    hmn = #hmn
+                    writefile("Hold/StoredPositions".."_"..tostring(hmn + 1)..".lua", summary)
+                else
+                    makefolder("Hold")
+                    if isfolder("Hold") then
+                        local hmn = listfiles("Hold")
+                        hmn = #hmn
+                        writefile("Hold/StoredPositions".."_"..tostring(hmn + 1)..".lua", summary)
+                    end
+                end
+            end
+        end
+
+        local Bindable = Instance.new("BindableFunction")
+        Bindable.OnInvoke = Callback
+
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Position Logger";
+            Text = "Would you like to copy the tables or save them into an file?";
+            Duration = "10";
+            Button1 = "File";
+            Button2 = "Copy";
+            Callback = Bindable
+        })
+
+    end)
+
+    return
+
+end
+
+--// Adding Ui
+
+HoldsPositionLogger:CreateUi(function(name, position)
+    HoldsPositionLogger:AddPos(name, position)
+end)
+
+game:GetService("StarterGui"):SetCore("SendNotification", {title = "Position Logger", text = "Welcome!", duration = 5})
