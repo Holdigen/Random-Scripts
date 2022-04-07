@@ -43,7 +43,7 @@ function Utility:Teleport(properties, duration, waituntildone)
     if duration ~= 0 and waituntildone == false then
         waituntildone = true
     end
-    Utility:Tween(Character:WaitForChild("HumanoidRootPart"), duration, {CFrame = properties})
+    Utility:Tween(Character:WaitForChild("HumanoidRootPart"), duration, {CFrame = properties}, waituntildone)
 end
 
 --// If you want more utility features dm me on discord and tell me more!
