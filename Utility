@@ -1,0 +1,51 @@
+--// Variables
+local Players = game:GetService("Players")
+local TweenService = game:getService("TweenService")
+local player = Players.LocalPlayer
+local Character = player.Character or player.CharacterAdded:Wait() or player.CharacterAppearence.Loaded:Wait()
+
+
+--// Code
+local Utility = {}
+
+function Utility:GetPlayer(playername)
+    if not playername then return false end
+    for i, v in pairs(Players:GetChildren()) do
+        if string.find(string.lower(v.Name), playername) then
+            return v
+        end
+    end
+    for i, v in pairs(Players:GetChildren()) do
+        if string.find(string.lower(v.DisplayName), playername) then
+            return v
+        end
+    end
+    return false
+end
+function Utility:GetCharacter(player)
+    if not player then return false end
+    local plrchar = player.Character or player.CharacterAdded:Wait() or player.CharacterAppearence.Loaded:Wait()
+    return plrchar
+end
+function Utility:Tween(instance, duration, properties, waituntildone, optionalproperties)
+    local waituntildone = waituntildone or false
+    local optionalproperties = optionalproperties or {Enum.EasingDirection.Out, Enum.EasingStyle.Linear}
+    local Tween = TweenService:Create(instance, TweenInfo.new(duration), properties, unpack(optionalproperties))
+    Tween:Play()
+    if waituntildone == true then
+        Tween.Completed:Wait()
+        return true
+    end
+end
+function Utility:Teleport(properties, duration, waituntildone)
+    local duration = duration or 0
+    local waituntildone = false
+    if duration ~= 0 and waituntildone == false then
+        waituntildone = true
+    end
+    Utility:Tween(Character:WaitForChild("HumanoidRootPart"), duration, {CFrame = properties})
+end
+
+--// If you want more utility features dm me on discord and tell me more!
+
+return Utility
