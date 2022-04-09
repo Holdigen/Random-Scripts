@@ -22,8 +22,8 @@ function Utility:GetPlayer(playername)
     end
     return false
 end
-function Utility:GetCharacter(player)
-    if not player then return false end
+function Utility:GetCharacter(plr)
+    local plr = plr or player
     local plrchar = player.Character or player.CharacterAdded:Wait() or player.CharacterAppearence.Loaded:Wait()
     return plrchar
 end
@@ -44,6 +44,13 @@ function Utility:Teleport(properties, duration, waituntildone)
         waituntildone = true
     end
     Utility:Tween(Character:WaitForChild("HumanoidRootPart"), duration, {CFrame = properties}, waituntildone)
+end
+function Utility:GetRoot(plr)
+    local plr = plr or player
+    local Char = Utility:GetCharacter(plr)
+    if Char then
+        return Char:WaitForChild("HumanoidRootPart")
+    end
 end
 
 --// If you want more utility features dm me on discord and tell me more!
