@@ -9,7 +9,8 @@ local Character = player.Character or player.CharacterAdded:Wait() or player.Cha
 local Utility = {}
 
 function Utility:GetPlayer(playername)
-    if not playername then return false end
+    if not playername or type(playername) ~= "string" then return false end
+    local playername = playername:lower()
     for i, v in pairs(Players:GetChildren()) do
         if string.find(string.lower(v.Name), playername) then
             return v
@@ -52,7 +53,21 @@ function Utility:GetRoot(plr)
         return Char:WaitForChild("HumanoidRootPart")
     end
 end
+function Utility:GetHumanoid(plr)
+    local plr = plr or player
+    local Char = Utility:GetCharacter(plr)
+    if Char then
+        return Char:WaitForChild("Humanoid")
+    end    
+end
+function Utility:MagTeleport(pos, tpspeed, who)
+    local tpspeed = tpspeed or 0
+    local who = who or Utility:GetRoot()
+    local twn = TweenService:Create(who, TweenInfo.new((pos - Utility:GetRoot().Position).Magnitude / tpspeed, Enum.EasingStyle.Linear), {CFrame = CFrame.new(pos)})
+    twn:Play()
+    twn.Completed:Wait()
+end
 
---// If you want more utility features dm me on discord and tell me more!
+--// If you want more utility features dm me on discord and tell me more! -- Hold#4564
 
 return Utility
