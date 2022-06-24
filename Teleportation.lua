@@ -78,7 +78,6 @@ function Module:Tween_Teleport(Destinition_Vector3)
 
 end
 function Module:Pathfinding_Teleport(Destinition_Vector3)
-    
     local humanoid_root_part = character:WaitForChild("HumanoidRootPart")
     local currentPosition = humanoid_root_part.Position
 
@@ -92,12 +91,12 @@ function Module:Pathfinding_Teleport(Destinition_Vector3)
         for i, v in ipairs(tempPath:GetWaypoints()) do
             Module:Tween_Teleport(v.Position + Vector3.new(0, 3, 0))
         end
+        Settings.Tween_Speed = oldSpeed
+        return
+    else
+        Settings.Tween_Speed = oldSpeed
+        return false
     end
-
-    Settings.Tween_Speed = oldSpeed
-
-    return tempPath.Status.Name
-
 end
 function Module:Sky_Teleport(Destinition_Vector3)
 
@@ -129,6 +128,8 @@ function Module:Instant_Teleport(Destinition_Vector3)
     humanoid_root_part.CFrame = CFrame.new(Destinition_Vector3)
 
 end
+
+Module:Sky_Teleport(Vector3.new(0, 25, 0))
 
 local loadTime = tick() - startTime
 
