@@ -129,8 +129,6 @@ function Module:Instant_Teleport(Destinition_Vector3)
 
 end
 
-Module:Sky_Teleport(Vector3.new(0, 25, 0))
-
 local loadTime = tick() - startTime
 
 return Module, Settings, loadTime
