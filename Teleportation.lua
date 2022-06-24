@@ -131,4 +131,6 @@ end
 
 local loadTime = tick() - startTime
 
+warn("Teleportation loaded in"..tostring(loadTime).."s. Made by Hold#4564")
+
 return Module, Settings, loadTime
