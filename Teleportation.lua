@@ -92,7 +92,7 @@ function Module:Pathfinding_Teleport(Destinition_Vector3)
             Module:Tween_Teleport(v.Position + Vector3.new(0, 3, 0))
         end
         Settings.Tween_Speed = oldSpeed
-        return
+        return true
     else
         Settings.Tween_Speed = oldSpeed
         return false
