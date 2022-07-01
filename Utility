@@ -8,6 +8,33 @@ local Character = player.Character or player.CharacterAdded:Wait() or player.Cha
 --// Code
 local Utility = {}
 
+function Utility:ConvertTime(tm)
+    local currentCount = tm or 100
+
+    local hours = 0
+    local minutes = 0
+    local seconds = 0
+
+    local currentString = ""
+    while currentCount >= 3600 do
+        hours = hours + 1
+        currentCount = currentCount - 3600
+    end
+    while currentCount >= 60 do
+        minutes = minutes + 1
+        currentCount = currentCount - 60
+    end
+    seconds = currentCount
+
+    if hours > 0 then
+        currentString = ("%sh %sm %ss"):format(tostring(hours), tostring(minutes), tostring(seconds))
+    elseif minutes > 0 then
+        currentString = ("%sm %ss"):format(tostring(minutes), tostring(seconds))
+    else
+        currentString = ("%ss"):format(tostring(seconds))
+    end
+    return currentString
+end
 function Utility:GetPlayer(playername)
     if not playername or type(playername) ~= "string" then return false end
     local playername = playername:lower()
